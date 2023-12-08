@@ -1,0 +1,24 @@
+# target OUTPUT files for the whole workflow
+rule all:
+    input:
+        "../workflow/results/uid.csv"
+
+# global variable to use
+COLLECTION = 'ISPY2'
+SCAN = 'ISPY2: VOLSER: bi-lateral: SER'
+MASK = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
+
+rule create_uid_list:
+    params:
+        collection = COLLECTION,
+        scan = SCAN,
+        mask = MASK
+    output:
+        csv = "../workflow/results/uid.csv"
+    conda:
+        '/mnt/home/fesslerl/890-402/cmse_890_602_fessler_final/workflow/env/tcia_utils.yml'
+    script:
+        "../workflow/scripts/create_list_of_uids.py"
+
+# Add test to ensure filtering was done correctly
+
