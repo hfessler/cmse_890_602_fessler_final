@@ -1,18 +1,22 @@
 # target OUTPUT files for the whole workflow
 rule all:
     input:
-        "../workflow/results/uid.csv"
+        "../workflow/results/uid_report.txt"
 
 # global variable to use
 COLLECTION = 'ISPY2'
 SCAN = 'ISPY2: VOLSER: bi-lateral: SER'
 MASK = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
+UPPERBOUND = 118
+LOWERBOUND = 0
 
 rule create_uid_list:
     params:
         collection = COLLECTION,
         scan = SCAN,
-        mask = MASK
+        mask = MASK,
+        upperbound = UPPERBOUND,
+        lowerbound = LOWERBOUND,
     output:
         csv = "../workflow/results/uid.csv"
     conda:
@@ -20,5 +24,16 @@ rule create_uid_list:
     script:
         "../workflow/scripts/create_list_of_uids.py"
 
-# Add test to ensure filtering was done correctly
+rule test_uid_list:
+    params:
+        collection = COLLECTION,
+        scan = SCAN,
+        mask = MASK
+    input:
+        uids="../workflow/results/uid.csv"
+    output:
+        uid_report = "../workflow/results/uid_report.txt"
+    script:
+         "../workflow/scripts/test_list_of_uids.py"
+
 
