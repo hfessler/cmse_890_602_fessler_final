@@ -1,39 +1,36 @@
 # target OUTPUT files for the whole workflow
 rule all:
     input:
-        "../workflow/results/uid_report.txt"
+        "../workflow/results/scans/"
 
 # global variable to use
 COLLECTION = 'ISPY2'
 SCAN = 'ISPY2: VOLSER: bi-lateral: SER'
 MASK = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
+PATIENT_ID = 'ISPY2-105286'
 UPPERBOUND = 118
 LOWERBOUND = 0
 
-rule create_uid_list:
+rule download_images:
     params:
         collection = COLLECTION,
         scan = SCAN,
         mask = MASK,
-        upperbound = UPPERBOUND,
-        lowerbound = LOWERBOUND,
-    output:
-        csv = "../workflow/results/uid.csv"
+        patient_id = PATIENT_ID,
+        scan_storage = "../workflow/results/scans/",
+        mask_storage = "../workflow/results/masks/"
     conda:
         '/mnt/home/fesslerl/890-402/cmse_890_602_fessler_final/workflow/env/tcia_utils.yml'
     script:
-        "../workflow/scripts/create_list_of_uids.py"
+        "../workflow/scripts/download_images.py"
 
-rule test_uid_list:
+rule process_masks:
     params:
-        collection = COLLECTION,
-        scan = SCAN,
-        mask = MASK
+        mask_long_storage = "../workflow/results/masks_long/"
     input:
-        uids="../workflow/results/uid.csv"
+        "{dataset}/inputfile"
     output:
-        uid_report = "../workflow/results/uid_report.txt"
+        
     script:
-         "../workflow/scripts/test_list_of_uids.py"
-
+        "../workflow/scripts/download_images.py"
 
