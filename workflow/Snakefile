@@ -7,7 +7,8 @@ rule all:
 COLLECTION = 'ISPY2'
 SCAN = 'ISPY2: VOLSER: bi-lateral: SER'
 MASK = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
-PATIENT_ID = 'ISPY2-105286'
+PATIENT_IDS = ['ISPY2-105286']
+TIMES = [0,1,2,3]
 UPPERBOUND = 118
 LOWERBOUND = 0
 
@@ -16,21 +17,15 @@ rule download_images:
         collection = COLLECTION,
         scan = SCAN,
         mask = MASK,
-        patient_id = PATIENT_ID,
+        patient_ids = PATIENT_IDS,
         scan_storage = "../workflow/results/scans/",
         mask_storage = "../workflow/results/masks/"
     conda:
         '/mnt/home/fesslerl/890-402/cmse_890_602_fessler_final/workflow/env/tcia_utils.yml'
+    output:
+        directory(expand("../workflow/results/scans/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES)),
+        directory(expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES))
     script:
         "../workflow/scripts/download_images.py"
 
-rule process_masks:
-    params:
-        mask_long_storage = "../workflow/results/masks_long/"
-    input:
-        "{dataset}/inputfile"
-    output:
-        
-    script:
-        "../workflow/scripts/download_images.py"
 
