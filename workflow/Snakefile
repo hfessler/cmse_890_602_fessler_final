@@ -1,16 +1,14 @@
-# target OUTPUT files for the whole workflow
-rule all:
-    input:
-        "../workflow/results/scans/"
-
 # global variable to use
 COLLECTION = 'ISPY2'
 SCAN = 'ISPY2: VOLSER: bi-lateral: SER'
 MASK = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
 PATIENT_IDS = ['ISPY2-105286']
 TIMES = [0,1,2,3]
-UPPERBOUND = 118
-LOWERBOUND = 0
+
+# target OUTPUT files for the whole workflow
+rule all:
+    input:
+        expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
 
 rule download_images:
     params:
@@ -20,12 +18,19 @@ rule download_images:
         patient_ids = PATIENT_IDS,
         scan_storage = "../workflow/results/scans/",
         mask_storage = "../workflow/results/masks/"
-    conda:
-        '/mnt/home/fesslerl/890-402/cmse_890_602_fessler_final/workflow/env/tcia_utils.yml'
     output:
-        directory(expand("../workflow/results/scans/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES)),
-        directory(expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES))
+        temporary(directory(expand("../workflow/results/scans/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES))),
+        temporary(directory(expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES)))
     script:
         "../workflow/scripts/download_images.py"
+
+rule process_scans:
+    input:
+        expand("../workflow/results/scans/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES),
+    output:
+        expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+    script:
+        "../workflow/scripts/process_scans.py"
+
 
 
