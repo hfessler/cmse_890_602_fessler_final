@@ -1,0 +1,12 @@
+name: tcia_utils
+channels:
+  - defaults
+dependencies:
+- python == 3.9
+- pip == 23.3
+- pip:
+  - tcia-utils >= 1.8
+  - pyradiomics >= 3.0
+  - simpleitk >= 2.3
+  - pandas >= 2.1
+
