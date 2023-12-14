@@ -3,18 +3,19 @@ import csv
 from radiomics import featureextractor, getFeatureClasses
 
 extractor = featureextractor.RadiomicsFeatureExtractor()
-extractor.loadParams('/mnt/home/fesslerl/890-402/cmse_890_602_fessler_final/workflow/env/radiomics_settings.yml')
+extractor.loadParams(
+    '/mnt/home/fesslerl/890-402/cmse_890_602_fessler_final/workflow/env/radiomics_settings.yml')
 
 print('Extraction parameters:\n\t', extractor.settings)
 print('Enabled filters:\n\t', extractor.enabledImagetypes)
 print('Enabled features:\n\t', extractor.enabledFeatures)
 
-for cropped_mask_filename, cropped_scan_filename, radiomics_filename in zip(snakemake.input.cropped_masks, snakemake.input.cropped_scans, snakemake.output.radiomics):
+for cropped_mask_filename, cropped_scan_filename, radiomics_filename in zip(snakemake.input.cropped_mask_filenames, snakemake.input.cropped_scan_filenames, snakemake.output.radiomics_filenames):
 
     mask = sitk.ReadImage(cropped_mask_filename)
     scan = sitk.ReadImage(cropped_scan_filename)
     # Remember that masks are provided as inverse masks where 0 indicates tumor masking
-    mask_inverted = (mask==0)
+    mask_inverted = (mask == 0)
 
     features = extractor.execute(scan, mask)
     with open(radiomics_filename, 'a') as outputFile:

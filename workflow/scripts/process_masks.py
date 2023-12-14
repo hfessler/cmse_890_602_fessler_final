@@ -10,5 +10,3 @@ for mask_folder in snakemake.input.mask_folders:
     mask = sitk.DICOMOrient(mask, 'LPS')
     name = mask_folder+'.nrrd'
     sitk.WriteImage(mask, name)
-
-    
