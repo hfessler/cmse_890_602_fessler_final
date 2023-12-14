@@ -2,13 +2,14 @@
 COLLECTION = 'ISPY2'
 SCAN = 'ISPY2: VOLSER: bi-lateral: SER'
 MASK = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
-PATIENT_IDS = ['ISPY2-105286']
+PATIENT_IDS = ['ISPY2-115638']
 TIMES = [0,1,2,3]
 
 # target OUTPUT files for the whole workflow
 rule all:
     input:
-        expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+        masks=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
+        bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
 
 rule download_images:
     params:
@@ -31,6 +32,16 @@ rule process_scans:
         expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
     script:
         "../workflow/scripts/process_scans.py"
+
+rule process_masks:
+    input:
+        mask_folders=expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES),
+        scans=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+    output:
+        masks=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
+        bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
+    script:
+        "../workflow/scripts/process_masks.py"
 
 
 
