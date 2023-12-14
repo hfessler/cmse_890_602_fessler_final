@@ -1,11 +1,9 @@
-# global variable to use
-
 # Collection and scan and mask identifying names.
 COLLECTION = 'ISPY2'
 SCAN_NAME = 'ISPY2: VOLSER: bi-lateral: SER'
 MASK_NAME = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
 
-# images in ISPY2 are unqiue for a specific patient and a specific time, because each patient is imaged multiple time. Times in ISPY2 are a simple ordering of images, not a specific calander time.
+# Images in ISPY2 are unqiue for a specific patient and a specific time, because each patient is imaged multiple time. Times in ISPY2 are a simple ordering of images, not a specific calander time.
 PATIENT_IDS = ['ISPY2-115638']
 TIMES = [0,1,2,3]
 
@@ -17,13 +15,13 @@ PERM_STORAGE='../perm'
 rule all:
     input:
         # Three images are permanetly stored. The mask itself, the scan, and the scan cropped to the area of interest by the mask.
-        expand("{perm_storage}/{image_types}/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE, image_types=['masks', 'scans', 'cropped_scans']),
+        expand('{perm_storage}/{image_types}/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE, image_types=['masks', 'scans', 'cropped_scans']),
 
         # Additionally, the bounding box used for that cropping is stored.
-        expand("{perm_storage}/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE),
+        expand('{perm_storage}/bounding_boxes/{patient_id}_{times}.npy', patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE),
 
         # And the radiomics extracted for the scan mask pair is stored.
-        expand("{perm_storage}/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE)
+        expand('{perm_storage}/radiomics/{patient_id}_{times}.csv', patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE)
 
 rule download_scans:
     conda:
@@ -32,11 +30,11 @@ rule download_scans:
         collection = COLLECTION,
         scan_name = SCAN_NAME,
         patient_ids = PATIENT_IDS,
-        scan_storage = "../workflow/results/scans/",
+        scan_storage = '../workflow/results/scans/',
     output:
-        temporary(directory(expand("../workflow/results/scans/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES))),
+        temporary(directory(expand('../workflow/results/scans/{patient_id}_{times}', patient_id=PATIENT_IDS, times=TIMES))),
     script:
-        "../workflow/scripts/download_scans.py"
+        '../workflow/scripts/download_scans.py'
 
 rule download_masks:
     conda:
@@ -45,66 +43,66 @@ rule download_masks:
         collection = COLLECTION,
         mask_name = MASK_NAME,
         patient_ids = PATIENT_IDS,
-        mask_storage = "../workflow/results/masks/"
+        mask_storage = '../workflow/results/masks/'
     output:
         temporary(directory(expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES)))
     script:
-        "../workflow/scripts/download_masks.py"
+        '../workflow/scripts/download_masks.py'
 
 rule process_scans:
     conda:
         '../workflow/env/radiomics_conda.yml'
     input:
-        scan_folders=expand("../workflow/results/scans/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES),
+        scan_folders=expand('../workflow/results/scans/{patient_id}_{times}', patient_id=PATIENT_IDS, times=TIMES),
     output:
-        scan_filenames=temporary(expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES))
+        scan_filenames=temporary(expand('../workflow/results/scans/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES))
     script:
-        "../workflow/scripts/process_scans.py"
+        '../workflow/scripts/process_scans.py'
 
 rule process_masks:
     conda:
         '../workflow/env/radiomics_conda.yml'
     input:
-        mask_folders=expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES),
+        mask_folders=expand('../workflow/results/masks/{patient_id}_{times}', patient_id=PATIENT_IDS, times=TIMES),
     output:
-        mask_filenames=temporary(expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)),
+        mask_filenames=temporary(expand('../workflow/results/masks/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES)),
     script:
-        "../workflow/scripts/process_masks.py"
+        '../workflow/scripts/process_masks.py'
 
 rule generate_bounding_boxes:
     conda:
         '../workflow/env/radiomics_conda.yml'
     input:
-        mask_filenames=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES), 
-        scan_filenames=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+        mask_filenames=expand('../workflow/results/masks/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES), 
+        scan_filenames=expand('../workflow/results/scans/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES)
     output:
-        bounding_box_filenames=temporary(expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES))
+        bounding_box_filenames=temporary(expand('../workflow/results/bounding_boxes/{patient_id}_{times}.npy', patient_id=PATIENT_IDS, times=TIMES))
     script:
-        "../workflow/scripts/generate_bounding_boxes.py"
+        '../workflow/scripts/generate_bounding_boxes.py'
 
 rule crop_scans:
     conda:
         '../workflow/env/radiomics_conda.yml'
     input:
-        mask_filenames=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES), 
-        scan_filenames=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
-        bounding_box_filenames=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
+        mask_filenames=expand('../workflow/results/masks/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES), 
+        scan_filenames=expand('../workflow/results/scans/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES),
+        bounding_box_filenames=expand('../workflow/results/bounding_boxes/{patient_id}_{times}.npy', patient_id=PATIENT_IDS, times=TIMES)
     output:
-        cropped_scan_filenames=temporary(expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)),
-        cropped_mask_filenames=temporary(expand("../workflow/results/cropped_masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES))
+        cropped_scan_filenames=temporary(expand('../workflow/results/cropped_scans/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES)),
+        cropped_mask_filenames=temporary(expand('../workflow/results/cropped_masks/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES))
     script:
-        "../workflow/scripts/crop_scans.py"
+        '../workflow/scripts/crop_scans.py'
 
 rule extract_radiomics:
     conda:
         '../workflow/env/radiomics_conda.yml'
     input:
-        cropped_scan_filenames=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES), 
-        cropped_mask_filenames=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+        cropped_scan_filenames=expand('../workflow/results/cropped_scans/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES), 
+        cropped_mask_filenames=expand('../workflow/results/cropped_scans/{patient_id}_{times}.nrrd', patient_id=PATIENT_IDS, times=TIMES)
     output:
-        radiomics_filenames=temporary(expand("../workflow/results/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES))
+        radiomics_filenames=temporary(expand('../workflow/results/radiomics/{patient_id}_{times}.csv', patient_id=PATIENT_IDS, times=TIMES))
     script: 
-        "../workflow/scripts/extract_radiomics.py"
+        '../workflow/scripts/extract_radiomics.py'
 
 rule move_files_to_perm_storage:
     input:
