@@ -1,6 +1,5 @@
 import numpy as np
 import SimpleITK as sitk
-
 from radiomics.imageoperations import cropToTumorMask
 
 for (mask_filename,
