@@ -5,10 +5,11 @@ MASK = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
 PATIENT_IDS = ['ISPY2-115638']
 TIMES = [0,1,2,3]
 
+
 # target OUTPUT files for the whole workflow
 rule all:
     input:
-        cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+        radiomics=expand("../workflow/results/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES)
 
 rule download_scans:
     params:
@@ -63,6 +64,18 @@ rule crop_scans:
         scans=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
         bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
     output:
-        cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+        cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
+        cropped_masks=temporary(expand("../workflow/results/cropped_masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES))
     script:
         "../workflow/scripts/crop_scans.py"
+
+rule extract_radiomics:
+    input:
+        cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES), 
+        cropped_masks=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+    output:
+        radiomics=expand("../workflow/results/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES)
+    script: 
+        "../workflow/scripts/extract_radiomics.py"
+
+

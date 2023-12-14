@@ -1,0 +1,29 @@
+# This parameter file replicates default behavior for future proofing.
+
+setting:
+  minimumROIDimensions: 2
+  minimumROISize: # Providing nothing disables fixing a minimum size for ROI
+  normalize: False
+  removeOutliers: # Providing nothing disables removing outliers
+  resampledPixelSpacing: # Providing nothing disables resampling
+  interpolator: 'sitkBSpline'
+  preCrop: False
+  padDistance: 5
+  distances: [1]
+  force2D: False
+  force2Ddimension: 0
+  resegmentRange: # Providing nothing disables resegmenting
+  label: 1  # ISPY2 masks are inverse masks, but pyradiomics does not allow labels of 0 to be used for extraction. We must invert the masks ourselves. 
+  additionalInfo: True
+
+  
+imageType:
+  Original: {}
+
+featureClass:
+  shape: []
+  firstorder: [] 
+  glcm:  []
+  glrlm: []
+  glszm: []
+  gldm: [] # contains deprecated features, but when no individual features are declared, deprecated features are not calculated
