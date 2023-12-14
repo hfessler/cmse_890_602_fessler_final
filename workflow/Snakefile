@@ -9,7 +9,6 @@ TIMES = [0,1,2,3]
 rule all:
     input:
         masks=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
-        bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
 
 rule download_scans:
     params:
@@ -44,10 +43,8 @@ rule process_scans:
 rule process_masks:
     input:
         mask_folders=expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES),
-        scans=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
     output:
         masks=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
-        bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
     script:
         "../workflow/scripts/process_masks.py"
 
