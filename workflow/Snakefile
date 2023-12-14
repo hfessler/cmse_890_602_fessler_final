@@ -11,7 +11,9 @@ PERM_STORAGE='../perm'
 # target OUTPUT files for the whole workflow
 rule all:
     input:
-        radiomics=expand("../workflow/results/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES)
+        expand("{perm_storage}/{image_types}/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE, image_types=['masks', 'scans', 'cropped_scans']),
+        expand("{perm_storage}/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE),
+        expand("{perm_storage}/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES, perm_storage=PERM_STORAGE)
 
 rule download_scans:
     conda:
@@ -45,7 +47,7 @@ rule process_scans:
     input:
         expand("../workflow/results/scans/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES),
     output:
-        expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+        temporary(expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES))
     script:
         "../workflow/scripts/process_scans.py"
 
@@ -55,7 +57,7 @@ rule process_masks:
     input:
         mask_folders=expand("../workflow/results/masks/{patient_id}_{times}", patient_id=PATIENT_IDS, times=TIMES),
     output:
-        masks=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
+        masks=temporary(expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)),
     script:
         "../workflow/scripts/process_masks.py"
 
@@ -66,7 +68,7 @@ rule generate_bounding_boxes:
         masks=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES), 
         scans=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
     output:
-        bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
+        bounding_boxes=temporary(expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES))
     script:
         "../workflow/scripts/generate_bounding_boxes.py"
 
@@ -78,7 +80,7 @@ rule crop_scans:
         scans=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
         bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
     output:
-        cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
+        cropped_scans=temporary(expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)),
         cropped_masks=temporary(expand("../workflow/results/cropped_masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES))
     script:
         "../workflow/scripts/crop_scans.py"
@@ -90,7 +92,15 @@ rule extract_radiomics:
         cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES), 
         cropped_masks=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
     output:
-        radiomics=expand("../workflow/results/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES)
+        radiomics=temporary(expand("../workflow/results/radiomics/{patient_id}_{times}.csv", patient_id=PATIENT_IDS, times=TIMES))
     script: 
         "../workflow/scripts/extract_radiomics.py"
+
+rule move_files:
+    input:
+        '../workflow/results/{result_type}/{ID}.{filetype}'
+    output:
+        '{PERM_STORAGE}/{result_type}/{ID}.{filetype}'
+    shell:
+        'cp {input} {output}'
 
