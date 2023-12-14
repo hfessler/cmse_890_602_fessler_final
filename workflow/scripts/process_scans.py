@@ -5,7 +5,9 @@ for scan_folder in snakemake.input:
     reader = sitk.ImageSeriesReader()
     dicom_names = reader.GetGDCMSeriesFileNames(scan_folder)
     reader.SetFileNames(dicom_names)
-    image = reader.Execute()
+    scan = reader.Execute()
+    scan = sitk.DICOMOrient(scan, 'LPS')
+
     
     name = scan_folder+'.nrrd'
-    sitk.WriteImage(image, name)
+    sitk.WriteImage(scan, name)
