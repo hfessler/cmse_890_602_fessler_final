@@ -8,7 +8,7 @@ TIMES = [0,1,2,3]
 # target OUTPUT files for the whole workflow
 rule all:
     input:
-        bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
+        cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
 
 rule download_scans:
     params:
@@ -56,3 +56,13 @@ rule generate_bounding_boxes:
         bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
     script:
         "../workflow/scripts/generate_bounding_boxes.py"
+
+rule crop_scans:
+    input:
+        masks=expand("../workflow/results/masks/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES), 
+        scans=expand("../workflow/results/scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES),
+        bounding_boxes=expand("../workflow/results/bounding_boxes/{patient_id}_{times}.npy", patient_id=PATIENT_IDS, times=TIMES)
+    output:
+        cropped_scans=expand("../workflow/results/cropped_scans/{patient_id}_{times}.nrrd", patient_id=PATIENT_IDS, times=TIMES)
+    script:
+        "../workflow/scripts/crop_scans.py"
