@@ -3,7 +3,7 @@ COLLECTION = 'ISPY2'
 SCAN_NAME = 'ISPY2: VOLSER: bi-lateral: SER'
 MASK_NAME = 'ISPY2: VOLSER: bi-lateral: Analysis Mask'
 
-# Images in ISPY2 are unqiue for a specific patient and a specific time, because each patient is imaged multiple time. Times in ISPY2 are a simple ordering of images, not a specific calander time.
+# Images in ISPY2 are unique for a specific patient and a specific time, because each patient is imaged multiple times. Times in ISPY2 are a simple ordering of images, not a specific calendar time.
 PATIENT_IDS = ['ISPY2-115638']
 TIMES = [0,1,2,3]
 
