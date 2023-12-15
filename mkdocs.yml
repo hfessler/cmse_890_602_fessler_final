@@ -9,5 +9,6 @@ nav:
  - Quick Start: quickstart.md
  - Testing Your Install: testing.md
  - Psuedocode: psuedocode.md
- - DFD: dfd.md
+ - Dataflow Diagram: dfd.md
+ - Future Work: future_work.md
  
