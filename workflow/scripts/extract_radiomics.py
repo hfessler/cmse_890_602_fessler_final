@@ -1,3 +1,23 @@
+"""Extract radiomics from a scan and mask pair
+
+    Extract radiomics from a paired scan and inverse mask of the same size and orientation. 
+
+    Args:
+        cropped_mask_filenames: List of strings of filenames of cropped mask files. Mask 
+        files are expected to be in NRRD format. 
+        cropped_scan_filenames: List of strings of filenames of cropped scan files. Scan 
+        files are expected to be in NRRD format. 
+        radiomics_filenames: List of strings of filenames for extracted radiomics from mask scan pairs. 
+
+    Extracts radiomics for each scan mask pair and saves the results to a csv.
+
+    Note that the lists are expected to be ordered similarly. That is, the nth element 
+    of each list corresponds to the same imaging event. Failure to do so will result in mislabeling or comparison of unrelated images.  
+
+    Further these masks are expected to be inverse masks, were tumor regions are marked with value 0. This is in contrast to the more common masks where tumor regions are marked 1. 
+    """
+
+
 import csv
 import SimpleITK as sitk
 from radiomics import featureextractor
@@ -20,7 +40,8 @@ for (cropped_mask_filename,
     mask = sitk.ReadImage(cropped_mask_filename)
     scan = sitk.ReadImage(cropped_scan_filename)
 
-    # Remember that masks are provided as inverse masks where 0 indicates tumor masking. We will need to invert this mask ourselves.
+    # Remember that masks are provided as inverse masks where 0
+    # indicates tumor masking. We will need to invert this mask ourselves.
     mask_inverted = (mask == 0)
 
     features = extractor.execute(scan, mask_inverted)
