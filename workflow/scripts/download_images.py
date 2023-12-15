@@ -5,8 +5,7 @@
     Args:
         collection: String of the name of the collection from TCIA. 
         patient_id: List of strings of patient IDs used in a collection.
-        image_name: String detailing the type of image to be downloaded, as descried by the 
-        collection.
+        image_name: String detailing the type of image to be downloaded, as descried by the collection.
         temp_storage: File path to a location to temporarly store downloads. 
 
     Saves each image to its own folder named via the patient ID and timing of the image. 

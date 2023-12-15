@@ -3,12 +3,9 @@
     Extract radiomics from a paired scan and inverse mask of the same size and orientation. 
 
     Args:
-        cropped_mask_filenames: List of strings of filenames of cropped mask files. Mask 
-        files are expected to be in NRRD format. 
-        cropped_scan_filenames: List of strings of filenames of cropped scan files. Scan 
-        files are expected to be in NRRD format. 
-        radiomics_filenames: List of strings of filenames for extracted radiomics from mask 
-        scan pairs. 
+        cropped_mask_filenames: List of strings of filenames of cropped mask files. Mask files are expected to be in NRRD format. 
+        cropped_scan_filenames: List of strings of filenames of cropped scan files. Scan files are expected to be in NRRD format. 
+        radiomics_filenames: List of strings of filenames for extracted radiomics from mask scan pairs. 
 
     Extracts radiomics for each scan mask pair and saves the results to a csv.
 
