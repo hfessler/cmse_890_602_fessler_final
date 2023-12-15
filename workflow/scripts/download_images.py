@@ -1,3 +1,21 @@
+"""Download images from TCIA
+
+    Download images from TCIA based on collection name, name of image, and patient ID.
+
+    Args:
+        collection: String of the name of the collection from TCIA. 
+        patient_id: List of strings of patient IDs used in a collection.
+        image_name: String detailing the type of image to be downloaded, as descried by the 
+        collection.
+        temp_storage: File path to a location to temporarly store downloads. 
+
+    Saves each image to its own folder named via the patient ID and timing of the image. 
+
+    Will rename folder containing download to be based on patient ID and time of image as 
+    opposed to the default TCIA universal ID. While the universal IDs are unique, they are 
+    very long and not human readable and contain no direct information about the image.   
+    """
+
 import os
 from tcia_utils import nbia
 
