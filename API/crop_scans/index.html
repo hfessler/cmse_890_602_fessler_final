@@ -117,35 +117,35 @@
               <b><code>mask_filenames</code></b>
               –
               <div class="doc-md-description">
-                <p>List of strings of filenames of mask files. Mask files are </p>
+                <p>List of strings of filenames of mask files. Mask files are expected to be in NRRD format. </p>
               </div>
             </li>
             <li>
               <b><code>scan_filenames</code></b>
               –
               <div class="doc-md-description">
-                <p>List of strings of filenames of scan files. Scan files are </p>
+                <p>List of strings of filenames of scan files. Scan files are expected to be in NRRD format and must match shape and orientation of corresponding mask.  </p>
               </div>
             </li>
             <li>
               <b><code>bounding_box_filenames</code></b>
               –
               <div class="doc-md-description">
-                <p>List of strings of filenames of bounding boxes. Expected </p>
+                <p>List of strings of filenames of bounding boxes. Expected to be in npy format. Should be of the format returned by radiomics.imageoperations.CheckMask. </p>
               </div>
             </li>
             <li>
               <b><code>cropped_scan_filenames</code></b>
               –
               <div class="doc-md-description">
-                <p>List of strings of filenames to save the cropped scans </p>
+                <p>List of strings of filenames to save the cropped scans under. </p>
               </div>
             </li>
             <li>
               <b><code>cropped_mask_filenames</code></b>
               –
               <div class="doc-md-description">
-                <p>List of strings of filenames to save the cropped masks </p>
+                <p>List of strings of filenames to save the cropped masks under. </p>
               </div>
             </li>
         </ul>
@@ -154,7 +154,8 @@
   </tbody>
 </table>      <p>Saves the cropped scans and cropped masks under the provided filenames. </p>
 <p>Note that the lists are expected to be ordered similarly. That is, the nth element 
-of each list corresponds to the same imaging event. Failure to do so will result in mislabeling or comparison of unrelated images.<br />
+of each list corresponds to the same imaging event. Failure to do so will result in 
+mislabeling or comparison of unrelated images.<br />
 The cropped masks are marked as temporary in the workflow. They will not be placed into 
 permanent storage, and will be removed when not needed.</p>
 
