@@ -1,0 +1,1 @@
+::: workflow.scripts.generate_bounding_boxes
