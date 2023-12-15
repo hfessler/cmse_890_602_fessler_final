@@ -16,7 +16,7 @@
     of each list corresponds to the same imaging event. Failure to do so will result in 
     mislabeling or comparison of unrelated images.  
 
-    Further these masks are expected to be inverse masks, were tumor regions are marked 
+    Further these masks are expected to be inverse masks, where tumor regions are marked 
     with value 0. This is in contrast to the more common masks where tumor regions are 
     marked 1. 
     """
