@@ -1,3 +1,14 @@
+"""Process mask and save as NRRD
+
+    Process mask to be in standard orientation and data type and save as NRRD. 
+
+    Args:
+        mask_folders: List of strings of folders containing mask files. Masks are expected to be DICOM segmentation files with only one file for the whole mask. 
+
+    Saves the processed mask under the same name as the folder name in the same directory. 
+    """
+
+
 import os
 import SimpleITK as sitk
 
