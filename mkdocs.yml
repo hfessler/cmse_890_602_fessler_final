@@ -1,0 +1,13 @@
+site_name: Radiomics Features Extraction for TCIA ISPY2 Images
+theme:
+  name: "readthedocs"
+plugins:
+ - mkdocstrings
+nav:
+ - Home: index.md
+ - Installation: installation.md
+ - Quick Start: quickstart.md
+ - Testing Your Install: testing.md
+ - Psuedocode: psuedocode.md
+ - DFD: dfd.md
+ 
