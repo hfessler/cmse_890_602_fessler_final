@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Quick Start - Radiomics Features Extraction for TCIA ISPY2 Images</title>
+    <title>API - Radiomics Features Extraction for TCIA ISPY2 Images</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Quick Start";
-        var mkdocs_page_input_path = "quickstart.md";
+        var mkdocs_page_name = "API";
+        var mkdocs_page_input_path = "API.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -44,10 +44,8 @@
                 <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
                 </li>
               </ul>
-              <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Quick Start</a>
-    <ul class="current">
-    </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../quickstart/">Quick Start</a>
                 </li>
               </ul>
               <ul>
@@ -66,8 +64,8 @@
                 <li class="toctree-l1"><a class="reference internal" href="../future_work/">Future Work</a>
                 </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../API/">API</a>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">API</a>
                 </li>
               </ul>
       </div>
@@ -84,7 +82,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Quick Start</li>
+      <li class="breadcrumb-item active">API</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -93,39 +91,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="installing-snakemake">Installing snakemake</h1>
-<p>You will need snakemake to run this workflow. To create an environment with conda, you can run the following command:</p>
-<pre><code class="language-bash">conda create -n radiomics_of_ISPY -c conda-forge bioconda::snakemake=7.32.4
-</code></pre>
-<p>Be sure to activate this enviroment before proceeding. </p>
-<pre><code class="language-bash">conda activate radiomics_of_ISPY
-</code></pre>
-<h1 id="running-the-workflow">Running the workflow</h1>
-<p>From here you can run the workflow. </p>
-<pre><code class="language-bash">snakemake --use-conda --cores 2
-</code></pre>
-<p>The use-conda flag will have the workflow create its own conda environment. You are free to change the number of cores requested. </p>
-<h1 id="changing-global-variables">Changing global variables</h1>
-<p>The key variables to change for the workflow are the collection name, the scan name, the mask name, and patient id(s), the times, and the permanent storage location. All of these are global variables at the very top of the Snakefile. </p>
-<p>For example, if I wanted to collect radiomics from two patients at first and last observation from the sister collection ACRIN 6698 who were uni-laterally cropped and store these in my scratch space, I would change the header of the Snakefile to </p>
-<pre><code># Collection and scan and mask identifying names.
-COLLECTION = 'ACRIN-6698'
-SCAN_NAME = 'ISPY2: VOLSER: uni-lateral cropped: SER'
-MASK_NAME = 'ISPY2: VOLSER: uni-lateral cropped: Analysis Mask'
-
-# Images in ISPY2 are unique for a specific patient and a specific time, because each patient is imaged multiple times. Times in ISPY2 are a simple ordering of images, not a specific calendar time.
-PATIENT_IDS = ['ACRIN-6698-102212', 'ACRIN-6698-103939']
-TIMES = [0,3]
-
-# Path to a permanent location to store the outputs of this workflow.
-PERM_STORAGE='/mnt/scratch/username'
-</code></pre>
+                <p>The following is documentaiton for each script used in this workflow, in the order they are typicaly accessed. </p>
+<p><a href="crop_scans/">crop_scans</a></p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../installation/" class="btn btn-neutral float-left" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../testing/" class="btn btn-neutral float-right" title="Testing Your Install">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../future_work/" class="btn btn-neutral float-left" title="Future Work"><span class="icon icon-circle-arrow-left"></span> Previous</a>
     </div>
 
   <hr/>
@@ -148,10 +120,8 @@ PERM_STORAGE='/mnt/scratch/username'
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../installation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../future_work/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="../testing/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
