@@ -42,6 +42,8 @@
               </ul>
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="./">Installation</a>
+    <ul class="current">
+    </ul>
                 </li>
               </ul>
               <ul>
@@ -57,7 +59,11 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../dfd/">DFD</a>
+                <li class="toctree-l1"><a class="reference internal" href="../dfd/">Dataflow Diagram</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../future_work/">Future Work</a>
                 </li>
               </ul>
       </div>
@@ -83,15 +89,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>To run this workflow, you will need snakemake. </p>
-<p>To test this workflow, you will need pytest. </p>
-<p>This workflow was built with snakemake 7.32.4. It was tested with pytest 7.4.3. I have not had the opportunity to check if older versions of either software cause errors. </p>
+                <h1 id="minimal-package-requirements">Minimal Package Requirements</h1>
+<p>To run this workflow, you will need <strong>snakemake</strong>. This workflow was built with snakemake <strong>7.32.4</strong>.</p>
+<p>To test this workflow, you will need <strong>pytest</strong>. This workflow was tested with pytest <strong><em>7.4.3</em></strong>. </p>
+<p>I have not had the opportunity to check if older versions of either software cause errors. </p>
+<h1 id="using-your-own-environment">Using your own environment</h1>
 <p>All further dependencies are handled via a conda environment created by the workflow itself. If you would instead like to use your own environment, the key dependencies are:</p>
-<p>python &gt;= 3.9</p>
-<p>tcia-utils &gt;= 1.8</p>
-<p>pyradiomics &gt;= 3.0</p>
-<p>simpleitk &gt;= 2.3</p>
-<p>pandas &gt;= 2.1</p>
+<pre><code>python &gt;= 3.9
+tcia-utils &gt;= 1.8
+pyradiomics &gt;= 3.0
+simpleitk &gt;= 2.3
+pandas &gt;= 2.1
+</code></pre>
 <p>Package versions below these values have not been tested and may or may not function. </p>
 <p>Be aware that without access to the conda-forge channel that building an environment with snakemake via conda sometimes builds with python 3.6. tcia-utils only has support for python 3.7 or greater. For building your own environment, you will have to be careful that this requirement is met. </p>
               
