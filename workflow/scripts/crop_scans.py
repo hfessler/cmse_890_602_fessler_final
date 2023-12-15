@@ -3,17 +3,17 @@
     Takes in a scan and mask and crops the scan and mask to the bounding box. 
 
     Args:
-        mask_filenames: List of a string of filenames of mask files. Mask files are 
+        mask_filenames: List of strings of filenames of mask files. Mask files are 
         expected to be in NRRD format. 
-        scan_filenames:  List of a string of filenames of scan files. Scan files are 
+        scan_filenames:  List of strings of filenames of scan files. Scan files are 
         expected to be in NRRD format and must match shape and orientation of corresponding 
         mask.  
-        bounding_box_filenames: List of a string of filenames of bounding boxes. Expected 
+        bounding_box_filenames: List of strings of filenames of bounding boxes. Expected 
         to be in npy format. Should be of the format returned by radiomics.imageoperations.
         CheckMask. 
-        cropped_scan_filenames: List of a string of filenames to save the cropped scans 
+        cropped_scan_filenames: List of strings of filenames to save the cropped scans 
         under. 
-        cropped_mask_filenames: List of a string of filenames to save the cropped masks 
+        cropped_mask_filenames: List of strings of filenames to save the cropped masks 
         under. 
 
     
