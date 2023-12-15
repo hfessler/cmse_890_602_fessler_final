@@ -5,7 +5,7 @@
     Args:
         scan_filenames: List of strings of filenames of scan files. Scan files are expected to be in NRRD format. 
         mask_filenames: List of strings of filenames of mask files. Mask files are expected to be in NRRD format. 
-        bounding_box_filename: List of strings of filenames for bounding boxes to be saved as.
+        bounding_box_filenames: List of strings of filenames for bounding boxes to be saved as.
 
     Extract the bounding box capturing the region of interest (ROI) defined by an inverse 
     mask and save the output in a numpy array. 
