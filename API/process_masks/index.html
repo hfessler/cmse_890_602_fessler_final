@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Crop scans - Radiomics Features Extraction for TCIA ISPY2 Images</title>
+    <title>Process masks - Radiomics Features Extraction for TCIA ISPY2 Images</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Crop scans";
-        var mkdocs_page_input_path = "API/crop_scans.md";
+        var mkdocs_page_name = "Process masks";
+        var mkdocs_page_input_path = "API/process_masks.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -82,7 +82,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Crop scans</li>
+      <li class="breadcrumb-item active">Process masks</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -95,11 +95,11 @@
 
 
 
-<a id="workflow.scripts.crop_scans"></a>
+<a id="workflow.scripts.process_masks"></a>
   <div class="doc doc-contents first">
   
-      <p>Crop scans to area of interest</p>
-<p>Takes in a scan and mask and crops the scan and mask to the bounding box. </p>
+      <p>Process mask and save as NRRD</p>
+<p>Process mask to be in standard orientation and data type and save as NRRD. </p>
 
 
 
@@ -114,49 +114,17 @@
       <td class="field-body">
         <ul class="first simple">
             <li>
-              <b><code>mask_filenames</code></b>
+              <b><code>mask_folders</code></b>
               –
               <div class="doc-md-description">
-                <p>List of strings of filenames of mask files. Mask files are </p>
-              </div>
-            </li>
-            <li>
-              <b><code>scan_filenames</code></b>
-              –
-              <div class="doc-md-description">
-                <p>List of strings of filenames of scan files. Scan files are </p>
-              </div>
-            </li>
-            <li>
-              <b><code>bounding_box_filenames</code></b>
-              –
-              <div class="doc-md-description">
-                <p>List of strings of filenames of bounding boxes. Expected </p>
-              </div>
-            </li>
-            <li>
-              <b><code>cropped_scan_filenames</code></b>
-              –
-              <div class="doc-md-description">
-                <p>List of strings of filenames to save the cropped scans </p>
-              </div>
-            </li>
-            <li>
-              <b><code>cropped_mask_filenames</code></b>
-              –
-              <div class="doc-md-description">
-                <p>List of strings of filenames to save the cropped masks </p>
+                <p>List of strings of folders containing mask files. Masks are expected to be DICOM segmentation files with only one file for the whole mask. </p>
               </div>
             </li>
         </ul>
       </td>
     </tr>
   </tbody>
-</table>      <p>Saves the cropped scans and cropped masks under the provided filenames. </p>
-<p>Note that the lists are expected to be ordered similarly. That is, the nth element 
-of each list corresponds to the same imaging event. Failure to do so will result in mislabeling or comparison of unrelated images.<br />
-The cropped masks are marked as temporary in the workflow. They will not be placed into 
-permanent storage, and will be removed when not needed.</p>
+</table>      <p>Saves the processed mask under the same name as the folder name in the same directory.</p>
 
   
 
