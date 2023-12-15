@@ -1,3 +1,14 @@
+"""Process scan and save as NRRD
+
+    Process scan to be in standard orientation and save as NRRD. 
+
+    Args:
+        scan_folders: List of strings of folders containing scan files. Scans are expected to be DICOM files with only one file per slice. 
+
+    Saves the processed scan under the same name as the folder name in the same directory. 
+    """
+
+
 import SimpleITK as sitk
 
 for scan_folder in snakemake.input.scan_folders:
