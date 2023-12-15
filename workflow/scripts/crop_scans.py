@@ -1,4 +1,4 @@
-"""Crop scans to area of interst
+"""Crop scans to area of interest
 
     Takes in a scan and mask and crops the scan and mask to the bounding box. 
 
@@ -6,7 +6,7 @@
         mask_filenames: List of a string of filenames of mask files. Mask files are 
         expected to be in NRRD format. 
         scan_filenames:  List of a string of filenames of scan files. Scan files are 
-        expected to be in NRRD format and must match shape and orientation of corrisponding 
+        expected to be in NRRD format and must match shape and orientation of corresponding 
         mask.  
         bounding_box_filenames: List of a string of filenames of bounding boxes. Expected 
         to be in npy format. Should be of the format returned by radiomics.imageoperations.
@@ -16,13 +16,13 @@
         cropped_mask_filenames: List of a string of filenames to save the cropped masks 
         under. 
 
-    Returns:
-        Saves the cropped scans and cropped masks under the provided filenames. 
+    
+    Saves the cropped scans and cropped masks under the provided filenames. 
 
-        Note that the lists are expected to be ordered similarly. That is, the nth element 
-        of each list corrisponds to the same imaging event. 
-        The cropped mask is marked as temporary in the workflow, will not be placed into 
-        permanent storage, and will be removed when not needed. 
+    Note that the lists are expected to be ordered similarly. That is, the nth element 
+    of each list corresponds to the same imaging event. Failure to do so will result in mislabeling or comparison of unrelated images.  
+    The cropped masks are marked as temporary in the workflow. They will not be placed into 
+    permanent storage, and will be removed when not needed. 
     """
 
 
