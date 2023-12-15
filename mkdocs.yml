@@ -11,4 +11,5 @@ nav:
  - Psuedocode: psuedocode.md
  - Dataflow Diagram: dfd.md
  - Future Work: future_work.md
+ - API: API.md
  
